@@ -1,5 +1,3 @@
-require 'sql/identifier'
-
 module Sql
   grammar String
     include Identifier

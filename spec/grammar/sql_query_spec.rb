@@ -136,6 +136,7 @@ describe Sql::QueryParser do
   end
 
   it "parses select with limit and offset" do
-    pending("not implemented")
+    pending "not implemented"
+    should_parse "select * from t limit 10 offset 50"
   end
 end

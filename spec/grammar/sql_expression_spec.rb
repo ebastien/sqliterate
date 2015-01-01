@@ -15,27 +15,27 @@ describe Sql::ExpressionParser do
 
   it "parses a column name" do
     e = parse("a")
-    e.value.should eq(["a"])
+    expect(e.value).to eq(["a"])
   end
 
   it "parses a qualified column name" do
     e = parse("my_table.my_column")
-    e.value.should eq([[:f, "my_table", "my_column"]])
+    expect(e.value).to eq([[:f, "my_table", "my_column"]])
   end
 
   it "parses an integer" do
     e = parse("42")
-    e.value.should eq([42])
+    expect(e.value).to eq([42])
   end
 
   it "parses a boolean" do
     e = parse("true")
-    e.value.should eq([true])
+    expect(e.value).to eq([true])
   end
 
   it "parses a string" do
     e = parse("'42'")
-    e.value.should eq(["42"])
+    expect(e.value).to eq(["42"])
   end
 
   it "parses an integer" do
@@ -119,6 +119,6 @@ describe Sql::ExpressionParser do
 
   it "parses a scalar subquery" do
     e = parse("(SELECT max(pop) FROM cities WHERE cities.state = states.name)")
-    e.value.should eq(["SELECT max(pop) FROM cities WHERE cities.state = states.name"])
+    expect(e.value).to eq(["SELECT max(pop) FROM cities WHERE cities.state = states.name"])
   end
 end
