@@ -1,4 +1,4 @@
-module Sql
+module Sqliterate
   grammar Literals
     include Space
     include Identifier

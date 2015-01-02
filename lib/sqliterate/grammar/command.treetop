@@ -1,4 +1,4 @@
-module Sql
+module Sqliterate
   grammar Command
     include Query
 

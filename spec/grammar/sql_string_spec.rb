@@ -1,9 +1,9 @@
 # coding: utf-8
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe Sql::StringParser do
+describe Sqliterate::StringParser do
   def parse(q)
-    r = Sql::StringParser.new.parse(q)
+    r = Sqliterate::StringParser.new.parse(q)
     expect(r).not_to be_nil
     r
   end

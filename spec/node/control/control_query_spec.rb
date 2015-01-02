@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/../../spec_helper"
 
 describe "tables access control" do
   def parse(q)
-    Sql::QueryParser.new.parse q
+    Sqliterate::QueryParser.new.parse q
   end
 
   def should_parse(q)

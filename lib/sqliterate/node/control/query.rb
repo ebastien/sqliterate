@@ -1,4 +1,4 @@
-module Sql
+module Sqliterate
   module Node
     module Query
       def common_tables

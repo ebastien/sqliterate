@@ -1,4 +1,4 @@
-module Sql
+module Sqliterate
   module Node
     module GenExpression
       def value

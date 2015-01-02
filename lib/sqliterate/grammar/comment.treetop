@@ -1,4 +1,4 @@
-module Sql
+module Sqliterate
   grammar Comment
     rule comment
       c_comment / line_comment

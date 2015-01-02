@@ -1,9 +1,9 @@
 # coding: utf-8
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe Sql::IdentifierParser do
+describe Sqliterate::IdentifierParser do
   def parse(q)
-    Sql::IdentifierParser.new.parse q
+    Sqliterate::IdentifierParser.new.parse q
   end
 
   it "parses simple identifier" do
