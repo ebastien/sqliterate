@@ -6,25 +6,29 @@ describe Sqliterate::IdentifierParser do
     Sqliterate::IdentifierParser.new.parse q
   end
 
+  def should_parse(q)
+    r = parse q
+    expect(r).not_to be_nil
+    r
+  end
+
+  def should_reject(q)
+    expect(parse q).to be_nil
+  end
+
   it "parses simple identifier" do
-    t = parse("my_$IdenTifieR_éあいうï")
-    expect(t).not_to be_nil
-    expect(t.name).to eq("my_$IdenTifieR_éあいうï")
+    should_parse "my_$IdenTifieR_éあいうï"
   end
 
   it "rejects invalid identifier" do
-    t = parse("my_invalid-IdenTifieR")
-    expect(t).to be_nil
+    should_reject "my_invalid-IdenTifieR"
   end
 
   it "rejects keyword as identifier" do
-    t = parse("select")
-    expect(t).to be_nil
+    should_reject "select"
   end
 
   it "parses quoted identifier" do
-    t = parse("\"select\"")
-    expect(t).not_to be_nil
-    expect(t.name).to eq("select")
+    should_parse "\"select\""
   end
 end

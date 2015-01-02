@@ -2,16 +2,9 @@
 require 'polyglot'
 require 'treetop'
 
-require 'sqliterate/node/identify/keywords'
-require 'sqliterate/node/identify/identifier'
-
-require 'sqliterate/node/evaluate/literals'
-require 'sqliterate/node/evaluate/string'
-require 'sqliterate/node/evaluate/operator'
-require 'sqliterate/node/evaluate/expression'
-
-require 'sqliterate/node/control/expression'
-require 'sqliterate/node/control/query'
+require 'sqliterate/node/identify'
+require 'sqliterate/node/evaluate'
+require 'sqliterate/node/control'
 
 require 'sqliterate/grammar/comment'
 require 'sqliterate/grammar/space'

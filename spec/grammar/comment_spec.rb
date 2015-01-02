@@ -3,32 +3,36 @@ require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe Sqliterate::CommentParser do
   def parse(q)
-    r = Sqliterate::CommentParser.new.parse q
+    Sqliterate::CommentParser.new.parse q
+  end
+
+  def should_parse(q)
+    r = parse q
     expect(r).not_to be_nil
     r
   end
 
-  def reject(q)
-    expect(Sqliterate::CommentParser.new.parse q).to be_nil
+  def should_reject(q)
+    expect(parse q).to be_nil
   end
 
   it "parses a C comment" do
-    parse "/* a comment */"
+    should_parse "/* a comment */"
   end
 
   it "parses a nested C comment" do
-    parse "/* a /* nested */ comment */"
+    should_parse "/* a /* nested */ comment */"
   end
 
   it "rejects an invalid C comment" do
-    reject "/* an /* invalid comment */"
+    should_reject "/* an /* invalid comment */"
   end
 
   it "parses a line comment" do
-    parse "-- a line -- comment\n"
+    should_parse "-- a line -- comment\n"
   end
 
   it "rejects an invalid line comment" do
-    reject "-- an invalid line \n comment\n"
+    should_reject "-- an invalid line \n comment\n"
   end
 end
