@@ -1,4 +1,4 @@
-module Sqliterate
+module SQLiterate
   grammar Operator
     include Space
     include Comment

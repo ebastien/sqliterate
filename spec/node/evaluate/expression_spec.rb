@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/../../spec_helper"
 
 describe "expression evaluation" do
   def parse(q)
-    r = Sqliterate::ExpressionParser.new.parse q
+    r = SQLiterate::ExpressionParser.new.parse q
     expect(r).not_to be_nil
     r.value
   end

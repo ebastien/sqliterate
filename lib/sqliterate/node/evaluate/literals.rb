@@ -1,4 +1,4 @@
-module Sqliterate
+module SQLiterate
   module Node
     module PositionalParam
       def value

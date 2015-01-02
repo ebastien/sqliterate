@@ -1,4 +1,4 @@
-module Sqliterate
+module SQLiterate
   grammar String
     include Identifier
 

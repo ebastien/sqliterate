@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/../../spec_helper"
 
 describe "identifier name" do
   def parse(q)
-    r = Sqliterate::IdentifierParser.new.parse q
+    r = SQLiterate::IdentifierParser.new.parse q
     expect(r).not_to be_nil
     r.name
   end
