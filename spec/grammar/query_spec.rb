@@ -136,7 +136,8 @@ describe SQLiterate::QueryParser do
   end
 
   it "parses select with limit and offset" do
-    pending "not implemented"
-    should_parse "select * from t limit 10 offset 50"
+    should_parse "select * from t order by c limit 10 offset 50"
+    should_parse "select * from t limit ALL"
+    should_parse "select * from t order by c offset 50"
   end
 end

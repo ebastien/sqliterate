@@ -131,7 +131,9 @@ module SQLiterate
       distinct_clause space
       select_list space
       table_expression space
-      order_by_clause
+      order_by_clause space
+      limit_clause space
+      offset_clause
       <Node::SelectQuery>
     end
 
@@ -234,6 +236,18 @@ module SQLiterate
 
     rule column_list
       '(' column_name r:( space ',' space column_name)* ')'
+    end
+
+    rule limit_clause
+      limit_kw required_space ( digits / all_kw )
+      /
+      space
+    end
+
+    rule offset_clause
+      offset_kw required_space digits
+      /
+      space
     end
   end
 end

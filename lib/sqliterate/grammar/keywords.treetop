@@ -10,7 +10,7 @@ module SQLiterate
       bigint_kw / boolean_kw / double_kw / float_kw / int_kw / real_kw /
       smallint_kw / string_kw / timestamp_kw / tinyint_kw / integer_kw /
       group_kw / having_kw / nulls_kw / first_kw / last_kw / union_kw /
-      intersect_kw / except_kw
+      intersect_kw / except_kw / limit_kw / offset_kw
     end
 
     rule type_name
@@ -250,6 +250,14 @@ module SQLiterate
 
     rule except_kw
       [eE] [xX] [cC] [eE] [pP] [tT] kw_sep
+    end
+
+    rule limit_kw
+      [lL] [iI] [mM] [iI] [tT] kw_sep
+    end
+
+    rule offset_kw
+      [oO] [fF] [fF] [sS] [eE] [tT] kw_sep
     end
   end
 end
