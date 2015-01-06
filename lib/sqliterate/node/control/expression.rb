@@ -21,6 +21,27 @@ module SQLiterate
       end
     end
 
+    module CaseExpression
+      def tables
+        case_else_section.tables + \
+        case_when_section.tables + r.elements.flat_map do |e|
+          e.case_when_section.tables
+        end
+      end
+    end
+
+    module CaseWhenSection
+      def tables
+        w.tables + t.tables
+      end
+    end
+
+    module CaseElseSection
+      def tables
+        respond_to?(:scalar_expression) ? scalar_expression.tables : []
+      end
+    end
+
     module FunctionCall
       def tables
         function_params.tables

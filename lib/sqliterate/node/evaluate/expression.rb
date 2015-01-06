@@ -12,18 +12,12 @@ module SQLiterate
     end
 
     module GenValue
-      module Literal
-      end
-      module Function
-      end
       module Subscript
         def value
           [:s, field_selection.value] + r.elements.map do |e|
             e.range_expression.value
           end
         end
-      end
-      module Field
       end
     end
 

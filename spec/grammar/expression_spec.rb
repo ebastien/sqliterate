@@ -113,4 +113,10 @@ describe SQLiterate::ExpressionParser do
   it "parses a scalar subquery" do
     should_parse("(SELECT max(pop) FROM cities WHERE cities.state = states.name)")
   end
+
+  it "parses case expressions" do
+    should_parse("case when a=1 then 'one' when a=2 then 'two' end")
+    should_parse("case when a=1 then 'one' when a=2 then 'two' else 'other' end")
+    should_parse("case when a=1 then 'one' end")
+  end
 end

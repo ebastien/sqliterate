@@ -68,4 +68,10 @@ describe "tables access control" do
     expect(parse("select a from t1 group by a, (select avg(b+a) from t2)")).to eq(["t1","t2"])
     expect(parse("select a from t1 group by a having a > (select avg(b) from t2)")).to eq(["t1","t2"])
   end
+
+  it "parses select with subquery in case expression" do
+    expect(parse("select case when (select max(b) from t1) > a then c end from t2")).to eq(["t1","t2"])
+    expect(parse("select case when a > 0 then (select max(b) from t1) end from t2")).to eq(["t1","t2"])
+    expect(parse("select case when a > 0 then c else (select max(b) from t1) end from t2")).to eq(["t1","t2"])
+  end
 end

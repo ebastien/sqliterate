@@ -21,13 +21,34 @@ module SQLiterate
     rule gen_value
       literal_value <Node::GenValue::Literal>
       /
-      function_call <Node::GenValue::Function>
+      function_call
       /
       field_selection r:( space '['
         space range_expression space
       ']' )+ <Node::GenValue::Subscript>
       /
-      field_selection <Node::GenValue::Field>
+      field_selection
+      /
+      case_expression
+    end
+
+    rule case_expression
+      case_kw required_space
+      case_when_section r:( space case_when_section )* space
+      case_else_section space
+      end_kw
+      <Node::CaseExpression>
+    end
+
+    rule case_when_section
+      when_kw required_space w:scalar_expression space
+      then_kw required_space t:scalar_expression
+      <Node::CaseWhenSection>
+    end
+
+    rule case_else_section
+      ( else_kw required_space scalar_expression / space )
+      <Node::CaseElseSection>
     end
 
     rule function_call
@@ -109,7 +130,7 @@ module SQLiterate
     end
 
     rule row_value
-      '(' query_expression ')' <Node::RowValue::Query>
+      '(' space query_expression space ')' <Node::RowValue::Query>
       /
       '(' space gen_expression space ')' <Node::RowValue::Expression>
       /
