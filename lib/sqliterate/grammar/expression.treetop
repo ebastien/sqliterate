@@ -77,8 +77,15 @@ module SQLiterate
     end
 
     rule order_by_clause
-      ( order_by_kw space expressions_list space ordering_specifier / space )
-      <Node::OrderByClause>
+      ( order_by_kw required_space sort_expressions_list / space ) <Node::OrderByClause>
+    end
+
+    rule sort_expressions_list
+      sort_expression r:( space ',' space sort_expression)* <Node::SortExpressionsList>
+    end
+
+    rule sort_expression
+      gen_expression space ordering_specifier <Node::SortExpression>
     end
 
     rule expressions_list
@@ -173,19 +180,20 @@ module SQLiterate
     end
 
     rule from_clause
-      (from_kw required_space table_references / space) <Node::FromClause>
+      ( from_kw required_space table_references / space ) <Node::FromClause>
     end
 
     rule where_clause
-      where_kw required_space scalar_expression / space
+      ( where_kw required_space scalar_expression / space ) <Node::WhereClause>
     end
 
     rule group_by_clause
-      group_by_kw required_space expressions_list space having_clause / space
+      ( group_by_kw required_space expressions_list space having_clause / space )
+      <Node::GroupByClause>
     end
 
     rule having_clause
-      having_kw required_space scalar_expression / space
+      ( having_kw required_space scalar_expression / space ) <Node::HavingClause>
     end
 
     rule table_references

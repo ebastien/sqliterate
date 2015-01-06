@@ -47,7 +47,21 @@ module SQLiterate
 
     module OrderByClause
       def tables
-        respond_to?(:expressions_list) ? expressions_list.tables : []
+        respond_to?(:sort_expressions_list) ? sort_expressions_list.tables : []
+      end
+    end
+
+    module SortExpressionsList
+      def tables
+        sort_expression.tables + r.elements.flat_map do |e|
+          e.sort_expression.tables
+        end
+      end
+    end
+
+    module SortExpression
+      def tables
+        gen_expression.tables
       end
     end
 
@@ -127,19 +141,41 @@ module SQLiterate
 
     module SelectQuery
       def tables
-        select_list.tables + table_expression.tables
+        select_list.tables + table_expression.tables + order_by_clause.tables
       end
     end
 
     module TableExpression
       def tables
-        from_clause.tables
+        from_clause.tables + where_clause.tables + group_by_clause.tables
       end
     end
 
     module FromClause
       def tables
         respond_to?(:table_references) ? table_references.tables : []
+      end
+    end
+
+    module WhereClause
+      def tables
+        respond_to?(:scalar_expression) ? scalar_expression.tables : []
+      end
+    end
+
+    module GroupByClause
+      def tables
+        if respond_to?(:expressions_list)
+          expressions_list.tables + having_clause.tables
+        else
+          []
+        end
+      end
+    end
+
+    module HavingClause
+      def tables
+        respond_to?(:scalar_expression) ? scalar_expression.tables : []
       end
     end
 

@@ -1,5 +1,4 @@
 # coding: utf-8
-require "#{File.dirname(__FILE__)}/../../spec_helper"
 
 describe "tables access control" do
   def parse(q)
@@ -55,5 +54,18 @@ describe "tables access control" do
 
   it "parses select with subquery" do
     expect(parse("select a, 2 + (select max(b) from t2) from t1")).to eq(["t1","t2"])
+  end
+
+  it "parses select with subquery in sort expression" do
+    expect(parse("select a from t1 order by (select avg(b+a) from t2)")).to eq(["t1","t2"])
+  end
+
+  it "parses select with subquery in where clause" do
+    expect(parse("select a from t1 where a > (select max(b) from t2)")).to eq(["t1","t2"])
+  end
+
+  it "parses select with subquery in group by clause" do
+    expect(parse("select a from t1 group by a, (select avg(b+a) from t2)")).to eq(["t1","t2"])
+    expect(parse("select a from t1 group by a having a > (select avg(b) from t2)")).to eq(["t1","t2"])
   end
 end

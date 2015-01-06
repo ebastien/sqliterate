@@ -1,5 +1,4 @@
 # coding: utf-8
-require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe SQLiterate::QueryParser do
   def parse(q)
@@ -131,7 +130,7 @@ describe SQLiterate::QueryParser do
   end
 
   it "parses select with order by" do
-    should_parse("select a,b from t order by a+b,c DESC NULLS LAST")
+    should_parse("select a,b from t order by a+b asc,c DESC NULLS LAST")
     should_parse("select a,b from t order by a+b,c ASC NULLS FIRST")
   end
 

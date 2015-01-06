@@ -1,5 +1,4 @@
 # coding: utf-8
-require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe SQLiterate::CommentParser do
   def parse(q)
