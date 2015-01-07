@@ -1,5 +1,43 @@
 module SQLiterate
   module Node
+    module DisjunctionExpression
+      def value
+        if r.empty?
+          e.value
+        else
+          [:or, e.value ] + r.elements.flat_map { |e| e.e.value }
+        end
+      end
+    end
+
+    module ConjunctionExpression
+      def value
+        if r.empty?
+          e.value
+        else
+          [:and, e.value ] + r.elements.flat_map { |e| e.e.value }
+        end
+      end
+    end
+
+    module NegationExpression
+      def value
+        respond_to?(:not_kw) ? [:not, e.value] : e.value
+      end
+    end
+
+    module BetweenExpression
+      def value
+        if r.empty?
+          gen_expression.value
+        else
+          [:b, gen_expression.value] + r.elements.flat_map do |e|
+            [e.l.value, e.r.value]
+          end
+        end
+      end
+    end
+
     module GenExpression
       def value
         h.elements.map { |e| e.gen_operator.operator } +
@@ -53,8 +91,8 @@ module SQLiterate
 
     module ExpressionsList
       def value
-        [gen_expression.value] + r.elements.map do |e|
-          e.gen_expression.value
+        [scalar_expression.value] + r.elements.map do |e|
+          e.scalar_expression.value
         end
       end
     end
@@ -70,9 +108,9 @@ module SQLiterate
     module NamedExpression
       def value
         if respond_to?(:column_name)
-          [column_name.name, gen_expression.value]
+          [column_name.name, scalar_expression.value]
         else
-          gen_expression.value
+          scalar_expression.value
         end
       end
     end
@@ -103,7 +141,7 @@ module SQLiterate
       end
       module Expression
         def value
-          gen_expression.value
+          scalar_expression.value
         end
       end
       module Positional

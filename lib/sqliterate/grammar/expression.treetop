@@ -7,7 +7,31 @@ module SQLiterate
     include Operator
 
     rule scalar_expression
-      gen_expression
+      disjunction_expression
+    end
+
+    rule disjunction_expression
+      e:conjunction_expression r:( space or_kw space e:conjunction_expression )*
+      <Node::DisjunctionExpression>
+    end
+
+    rule conjunction_expression
+      e:negation_expression r:( space and_kw space e:negation_expression )*
+      <Node::ConjunctionExpression>
+    end
+
+    rule negation_expression
+      ( not_kw space )? e:between_expression
+      <Node::NegationExpression>
+    end
+
+    rule between_expression
+      gen_expression r:( space
+        ( not_kw space )? between_kw space ( symmetric_kw space )?
+        l:gen_expression space and_kw space
+        r:gen_expression
+      )*
+      <Node::BetweenExpression>
     end
 
     rule gen_expression
@@ -106,11 +130,11 @@ module SQLiterate
     end
 
     rule sort_expression
-      gen_expression space ordering_specifier <Node::SortExpression>
+      scalar_expression space ordering_specifier <Node::SortExpression>
     end
 
     rule expressions_list
-      gen_expression r:( space ',' space gen_expression)* <Node::ExpressionsList>
+      scalar_expression r:( space ',' space scalar_expression)* <Node::ExpressionsList>
     end
 
     rule range_expression
@@ -132,7 +156,7 @@ module SQLiterate
     rule row_value
       '(' space query_expression space ')' <Node::RowValue::Query>
       /
-      '(' space gen_expression space ')' <Node::RowValue::Expression>
+      '(' space scalar_expression space ')' <Node::RowValue::Expression>
       /
       positional_param <Node::RowValue::Positional>
       /
@@ -183,7 +207,7 @@ module SQLiterate
     end
 
     rule named_expression
-      gen_expression ( space (as_kw space)? column_name )? <Node::NamedExpression>
+      scalar_expression ( space (as_kw space)? column_name )? <Node::NamedExpression>
     end
 
     rule table_reference

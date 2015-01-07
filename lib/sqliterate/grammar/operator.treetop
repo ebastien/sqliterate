@@ -5,11 +5,7 @@ module SQLiterate
     include Keywords
 
     rule gen_operator
-      symbol_operator / keyword_operator
-    end
-
-    rule keyword_operator
-      ( and_kw / or_kw / not_kw ) <Node::KeywordOperator>
+      symbol_operator
     end
 
     rule symbol_operator

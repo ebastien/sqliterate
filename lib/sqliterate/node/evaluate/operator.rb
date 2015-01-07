@@ -1,11 +1,5 @@
 module SQLiterate
   module Node
-    module KeywordOperator
-      def operator
-        text_value.to_sym
-      end
-    end
-
     module OperatorChar
       def char
         c.text_value

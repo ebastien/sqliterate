@@ -1,5 +1,31 @@
 module SQLiterate
   module Node
+    module DisjunctionExpression
+      def tables
+        e.tables + r.elements.flat_map { |e| e.e.tables }
+      end
+    end
+
+    module ConjunctionExpression
+      def tables
+        e.tables + r.elements.flat_map { |e| e.e.tables }
+      end
+    end
+
+    module NegationExpression
+      def tables
+        e.tables
+      end
+    end
+
+    module BetweenExpression
+      def tables
+        gen_expression.tables + r.elements.flat_map do |e|
+          e.l.tables + e.r.tables
+        end
+      end
+    end
+
     module GenExpression
       def tables
         gen_value.tables + r.elements.flat_map { |e| e.gen_value.tables }
@@ -82,14 +108,14 @@ module SQLiterate
 
     module SortExpression
       def tables
-        gen_expression.tables
+        scalar_expression.tables
       end
     end
 
     module ExpressionsList
       def tables
-        gen_expression.tables + r.elements.flat_map do |e|
-          e.gen_expression.tables
+        scalar_expression.tables + r.elements.flat_map do |e|
+          e.scalar_expression.tables
         end
       end
     end
@@ -104,7 +130,7 @@ module SQLiterate
 
     module NamedExpression
       def tables
-        gen_expression.tables
+        scalar_expression.tables
       end
     end
 
@@ -134,7 +160,7 @@ module SQLiterate
       end
       module Expression
         def tables
-          gen_expression.tables
+          scalar_expression.tables
         end
       end
       module Identifier

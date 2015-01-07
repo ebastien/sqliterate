@@ -99,13 +99,13 @@ describe SQLiterate::ExpressionParser do
   end
 
   it "parses between expressions" do
-    pending('not implemented')
     should_parse("a between x and y")
     should_parse("a not between x and y")
     should_parse("a between symmetric x and y")
+    should_parse("a between x and y between x and y")
   end
 
-  it "parses null comparison operators" do
+  it "parses comparison operators" do
     pending('not implemented')
     should_parse("a is null")
     should_parse("a is not null")
