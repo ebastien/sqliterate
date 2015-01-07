@@ -18,10 +18,29 @@ module SQLiterate
       end
     end
 
+    module EqualityExpression
+      def tables
+        e.tables + r.elements.flat_map { |e| e.e.tables }
+      end
+    end
+
     module BetweenExpression
       def tables
-        gen_expression.tables + r.elements.flat_map do |e|
+        e.tables + r.elements.flat_map do |e|
           e.l.tables + e.r.tables
+        end
+      end
+    end
+
+    module TestExpression
+      module Binary
+        def tables
+          l.tables + r.tables
+        end
+      end
+      module Unary
+        def tables
+          e.tables
         end
       end
     end

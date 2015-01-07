@@ -105,7 +105,7 @@ describe SQLiterate::ExpressionParser do
     should_parse("a between x and y between x and y")
   end
 
-  it "parses comparison operators" do
+  it "parses test expressions" do
     should_parse("a is null")
     should_parse("a is not null")
     should_parse("a isnull")

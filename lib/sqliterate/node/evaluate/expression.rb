@@ -22,18 +22,41 @@ module SQLiterate
 
     module NegationExpression
       def value
-        respond_to?(:not_kw) ? [:not, e.value] : e.value
+        [:not, e.value]
+      end
+    end
+
+    module EqualityExpression
+      def value
+        if r.empty?
+          e.value
+        else
+          [:eq, e.value ] + r.elements.flat_map { |e| e.e.value }
+        end
       end
     end
 
     module BetweenExpression
       def value
         if r.empty?
-          gen_expression.value
+          e.value
         else
           [:b, gen_expression.value] + r.elements.flat_map do |e|
             [e.l.value, e.r.value]
           end
+        end
+      end
+    end
+
+    module TestExpression
+      module Binary
+        def value
+          [:t, l.value, r.value]
+        end
+      end
+      module Unary
+        def value
+          [:t, e.value]
         end
       end
     end

@@ -21,17 +21,33 @@ module SQLiterate
     end
 
     rule negation_expression
-      ( not_kw space )? e:between_expression
-      <Node::NegationExpression>
+      not_kw space e:equality_expression <Node::NegationExpression>
+      /
+      equality_expression
+    end
+
+    rule equality_expression
+      e:between_expression r:( space '=' space e:between_expression )*
+      <Node::EqualityExpression>
     end
 
     rule between_expression
-      gen_expression r:( space
+      e:test_expression r:( space
         ( not_kw space )? between_kw space ( symmetric_kw space )?
-        l:gen_expression space and_kw space
-        r:gen_expression
+        l:test_expression space and_kw space
+        r:test_expression
       )*
       <Node::BetweenExpression>
+    end
+
+    rule test_expression
+      l:gen_expression space binary_test_operator space r:gen_expression
+      <Node::TestExpression::Binary>
+      /
+      e:gen_expression space unary_test_operator
+      <Node::TestExpression::Unary>
+      /
+      gen_expression
     end
 
     rule gen_expression

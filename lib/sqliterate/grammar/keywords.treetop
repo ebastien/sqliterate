@@ -11,7 +11,8 @@ module SQLiterate
       smallint_kw / string_kw / timestamp_kw / tinyint_kw / integer_kw /
       group_kw / having_kw / nulls_kw / first_kw / last_kw / union_kw /
       intersect_kw / except_kw / limit_kw / offset_kw /
-      case_kw / when_kw / then_kw / else_kw / end_kw / symmetric_kw
+      case_kw / when_kw / then_kw / else_kw / end_kw / symmetric_kw /
+      unknown_kw
     end
 
     rule type_name
@@ -283,6 +284,10 @@ module SQLiterate
 
     rule symmetric_kw
       [sS] [yY] [mM] [mM] [eE] [tT] [rR] [iI] [cC] kw_sep
+    end
+
+    rule unknown_kw
+      [uU] [nN] [kK] [nN] [oO] [wW] [nN] kw_sep
     end
   end
 end

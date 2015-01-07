@@ -79,4 +79,9 @@ describe "tables access control" do
     expect(parse("select (select max(a) from t1) between (select max(b) from t2) and (select max(c) from t3)")).to \
       eq(["t1","t2","t3"])
   end
+
+  it "parses select with subquery in test expression" do
+    expect(parse("select (select max(a) from t1) is distinct from (select max(b) from t2)")).to \
+      eq(["t1","t2"])
+  end
 end

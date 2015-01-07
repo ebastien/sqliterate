@@ -57,5 +57,23 @@ module SQLiterate
     rule op_char
       c:[+\-*/<>=~!@#%^&|`?] comment* <Node::OperatorChar>
     end
+
+    rule binary_test_operator
+      is_kw space ( not_kw space )? distinct_kw space from_kw
+    end
+
+    rule unary_test_operator
+      is_kw space ( not_kw space )? null_kw
+      /
+      isnull_kw
+      /
+      notnull_kw
+      /
+      is_kw space ( not_kw space )? true_kw
+      /
+      is_kw space ( not_kw space )? false_kw
+      /
+      is_kw space ( not_kw space )? unknown_kw
+    end
   end
 end
