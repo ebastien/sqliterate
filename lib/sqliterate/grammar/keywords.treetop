@@ -12,7 +12,7 @@ module SQLiterate
       group_kw / having_kw / nulls_kw / first_kw / last_kw / union_kw /
       intersect_kw / except_kw / limit_kw / offset_kw /
       case_kw / when_kw / then_kw / else_kw / end_kw / symmetric_kw /
-      unknown_kw
+      unknown_kw / exists_kw / any_kw / some_kw
     end
 
     rule type_name
@@ -288,6 +288,18 @@ module SQLiterate
 
     rule unknown_kw
       [uU] [nN] [kK] [nN] [oO] [wW] [nN] kw_sep
+    end
+
+    rule exists_kw
+      [eE] [xX] [iI] [sS] [tT] [sS] kw_sep
+    end
+
+    rule any_kw
+      [aA] [nN] [yY] kw_sep
+    end
+
+    rule some_kw
+      [sS] [oO] [mM] [eE] kw_sep
     end
   end
 end

@@ -139,11 +139,14 @@ describe SQLiterate::ExpressionParser do
     should_parse("substring('foobar' from 'o.b')")
   end
 
-  it "parses subquery expressions" do
-    pending('not implemented')
+  it "parses membership expressions" do
     should_parse("EXISTS (SELECT 1 FROM tab2 WHERE col2 = tab1.col2)")
     should_parse("a in (select b from t)")
     should_parse("a NOT IN (select b from t)")
+  end
+
+  it "parses set predicate expressions" do
+    pending('not implemented')
     should_parse("a > ANY (select b from t)")
     should_parse("a = some (select b from t)")
     should_parse("a <> all (select b from t)")

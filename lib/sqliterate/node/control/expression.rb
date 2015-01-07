@@ -32,6 +32,18 @@ module SQLiterate
       end
     end
 
+    module SetPredicateExpression
+      def tables
+        e.tables + query_expression.tables
+      end
+    end
+
+    module ExistsExpression
+      def tables
+        query_expression.tables
+      end
+    end
+
     module TestExpression
       module Binary
         def tables

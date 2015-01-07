@@ -32,12 +32,27 @@ module SQLiterate
     end
 
     rule between_expression
-      e:test_expression r:( space
+      e:set_predicate_expression r:( space
         ( not_kw space )? between_kw space ( symmetric_kw space )?
-        l:test_expression space and_kw space
-        r:test_expression
+        l:set_predicate_expression space and_kw space
+        r:set_predicate_expression
       )*
       <Node::BetweenExpression>
+    end
+
+    rule set_predicate_expression
+      exists_expression
+      /
+      e:test_expression space set_predicate_operator space
+      '(' space query_expression space ')'
+      <Node::SetPredicateExpression>
+      /
+      test_expression
+    end
+
+    rule exists_expression
+      exists_kw space '(' space query_expression space ')'
+      <Node::ExistsExpression>
     end
 
     rule test_expression

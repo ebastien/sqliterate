@@ -41,5 +41,11 @@ module SQLiterate
         ( r.elements.map { |e| e.op_char.char } + [op_char.char] ).join.to_sym
       end
     end
+
+    module ComparisonOperator
+      def operator
+        o.text_value.to_sym
+      end
+    end
   end
 end

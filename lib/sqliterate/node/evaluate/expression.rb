@@ -48,15 +48,27 @@ module SQLiterate
       end
     end
 
+    module SetPredicateExpression
+      def value
+        [:set, e.value, query_expression.value]
+      end
+    end
+
+    module ExistsExpression
+      def value
+        [:exists, query_expression.value]
+      end
+    end
+
     module TestExpression
       module Binary
         def value
-          [:t, l.value, r.value]
+          [:test, l.value, r.value]
         end
       end
       module Unary
         def value
-          [:t, e.value]
+          [:test, e.value]
         end
       end
     end
