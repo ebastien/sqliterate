@@ -119,6 +119,8 @@ describe SQLiterate::ExpressionParser do
     should_parse("a is not false")
     should_parse("a is unknown")
     should_parse("a is not unknown")
+    should_parse(
+      "(DATE '2001-02-16', DATE '2001-12-21') OVERLAPS (DATE '2001-10-30', DATE '2002-10-30')")
   end
 
   it "parses pattern matching expressions" do
@@ -142,5 +144,11 @@ describe SQLiterate::ExpressionParser do
     should_parse("a > ANY (select b from t)")
     should_parse("a = some (select b from t)")
     should_parse("a <> all (select b from t)")
+  end
+
+  it "parses date/time constructs" do
+    pending('not implemented')
+    should_parse("EXTRACT(CENTURY FROM TIMESTAMP '2000-12-16 12:21:13')")
+    should_parse("TIMESTAMP '2001-02-16 20:38:40' AT TIME ZONE 'MST'")
   end
 end
