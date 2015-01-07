@@ -23,28 +23,6 @@ describe SQLiterate::ExpressionParser do
     should_parse("my_table.my_column")
   end
 
-  it "parses an integer" do
-    should_parse("42")
-  end
-
-  it "parses a boolean" do
-    should_parse("true")
-  end
-
-  it "parses a string" do
-    should_parse("'42'")
-  end
-
-  it "parses a float" do
-    should_parse("42.56")
-    should_parse(".56")
-  end
-
-  it "parses an exponent notation" do
-    should_parse("42.56e-3")
-    should_parse("42.e3")
-  end
-
   it "parses arithmetic" do
     should_parse("-42 * (3.5 - 9 / t.b) + t.a")
   end
@@ -118,5 +96,51 @@ describe SQLiterate::ExpressionParser do
     should_parse("case when a=1 then 'one' when a=2 then 'two' end")
     should_parse("case when a=1 then 'one' when a=2 then 'two' else 'other' end")
     should_parse("case when a=1 then 'one' end")
+  end
+
+  it "parses between expressions" do
+    pending('not implemented')
+    should_parse("a between x and y")
+    should_parse("a not between x and y")
+    should_parse("a between symmetric x and y")
+  end
+
+  it "parses null comparison operators" do
+    pending('not implemented')
+    should_parse("a is null")
+    should_parse("a is not null")
+    should_parse("a isnull")
+    should_parse("a notnull")
+    should_parse("a is distinct from b")
+    should_parse("a is not distinct from b")
+    should_parse("a is true")
+    should_parse("a is not true")
+    should_parse("a is false")
+    should_parse("a is not false")
+    should_parse("a is unknown")
+    should_parse("a is not unknown")
+  end
+
+  it "parses pattern matching expressions" do
+    pending('not implemented')
+    should_parse("'text' like '_pattern%'")
+    should_parse("'text' not like '_pattern%'")
+    should_reject("not 'text' like '_pattern%'")
+    should_parse("'text' like '_pattern%' escape '!'")
+    should_parse("'text' ilike '_pattern%'")
+    should_parse("'text' similar to '_(patt|ern)%'")
+    should_parse("'text' not similar to '_(patt|ern)%'")
+    should_parse("substring('foobar' from '%#\"o_b#\"%' for '#')")
+    should_parse("substring('foobar' from 'o.b')")
+  end
+
+  it "parses subquery expressions" do
+    pending('not implemented')
+    should_parse("EXISTS (SELECT 1 FROM tab2 WHERE col2 = tab1.col2)")
+    should_parse("a in (select b from t)")
+    should_parse("a NOT IN (select b from t)")
+    should_parse("a > ANY (select b from t)")
+    should_parse("a = some (select b from t)")
+    should_parse("a <> all (select b from t)")
   end
 end
