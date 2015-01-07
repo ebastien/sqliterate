@@ -106,7 +106,6 @@ describe SQLiterate::ExpressionParser do
   end
 
   it "parses comparison operators" do
-    pending('not implemented')
     should_parse("a is null")
     should_parse("a is not null")
     should_parse("a isnull")
@@ -119,6 +118,10 @@ describe SQLiterate::ExpressionParser do
     should_parse("a is not false")
     should_parse("a is unknown")
     should_parse("a is not unknown")
+  end
+
+  it "parses overlaps expressions" do
+    pending('not implemented')
     should_parse(
       "(DATE '2001-02-16', DATE '2001-12-21') OVERLAPS (DATE '2001-10-30', DATE '2002-10-30')")
   end
