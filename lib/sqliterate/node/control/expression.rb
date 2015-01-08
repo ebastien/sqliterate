@@ -219,7 +219,11 @@ module SQLiterate
 
     module SelectQuery
       def tables
-        select_list.tables + table_expression.tables + order_by_clause.tables
+        select_list.tables + \
+        table_expression.tables + \
+        order_by_clause.tables + \
+        limit_clause.tables + \
+        offset_clause.tables
       end
     end
 
@@ -300,6 +304,18 @@ module SQLiterate
     module Join
       def table
         table_reference.table
+      end
+    end
+
+    module LimitClause
+      def tables
+        respond_to?(:scalar_expression) ? scalar_expression.tables : []
+      end
+    end
+
+    module OffsetClause
+      def tables
+        respond_to?(:scalar_expression) ? scalar_expression.tables : []
       end
     end
   end

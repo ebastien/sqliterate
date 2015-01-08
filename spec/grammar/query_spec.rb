@@ -138,5 +138,6 @@ describe SQLiterate::QueryParser do
     should_parse "select * from t order by c limit 10 offset 50"
     should_parse "select * from t limit ALL"
     should_parse "select * from t order by c offset 50"
+    should_parse "select * from t1 limit (select max(b) from t2) offset 10*5"
   end
 end

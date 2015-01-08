@@ -323,15 +323,17 @@ module SQLiterate
     end
 
     rule limit_clause
-      limit_kw space ( digits / all_kw )
-      /
-      space
+      ( limit_kw required_space all_kw
+        /
+        limit_kw space scalar_expression
+        /
+        space )
+      <Node::LimitClause>
     end
 
     rule offset_clause
-      offset_kw required_space digits
-      /
-      space
+      ( offset_kw space scalar_expression / space )
+      <Node::OffsetClause>
     end
   end
 end
