@@ -143,6 +143,8 @@ describe SQLiterate::ExpressionParser do
     should_parse("EXISTS (SELECT 1 FROM tab2 WHERE col2 = tab1.col2)")
     should_parse("a in (select b from t)")
     should_parse("a NOT IN (select b from t)")
+    should_parse("a in (10,20,30)")
+    should_parse("a not in ('a', 'b', 'c')")
   end
 
   it "parses set predicate expressions" do
@@ -156,10 +158,5 @@ describe SQLiterate::ExpressionParser do
     pending('not implemented')
     should_parse("EXTRACT(CENTURY FROM TIMESTAMP '2000-12-16 12:21:13')")
     should_parse("TIMESTAMP '2001-02-16 20:38:40' AT TIME ZONE 'MST'")
-  end
-
-  it "parses row comparison expressions" do
-    pending('not implemented')
-    should_parse("a in (10,20,30)")
   end
 end

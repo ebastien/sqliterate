@@ -43,11 +43,17 @@ module SQLiterate
     rule set_predicate_expression
       exists_expression
       /
-      e:test_expression space set_predicate_operator space
-      '(' space query_expression space ')'
+      e:test_expression space set_predicate_operator space set_constructor
       <Node::SetPredicateExpression>
       /
       test_expression
+    end
+
+    rule set_constructor
+      '(' space e:query_expression space ')'
+      /
+      '(' space e:expressions_list space ')'
+      <Node::SetConstructor>
     end
 
     rule exists_expression

@@ -38,6 +38,12 @@ module SQLiterate
       end
     end
 
+    module SetConstructor
+      def tables
+        e.tables
+      end
+    end
+
     module ExistsExpression
       def tables
         query_expression.tables

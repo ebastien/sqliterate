@@ -50,7 +50,13 @@ module SQLiterate
 
     module SetPredicateExpression
       def value
-        [:set, e.value, query_expression.value]
+        [:set, e.value, set_constructor.value]
+      end
+    end
+
+    module SetConstructor
+      def value
+        e.value
       end
     end
 
