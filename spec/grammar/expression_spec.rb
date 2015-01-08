@@ -157,4 +157,9 @@ describe SQLiterate::ExpressionParser do
     should_parse("EXTRACT(CENTURY FROM TIMESTAMP '2000-12-16 12:21:13')")
     should_parse("TIMESTAMP '2001-02-16 20:38:40' AT TIME ZONE 'MST'")
   end
+
+  it "parses row comparison expressions" do
+    pending('not implemented')
+    should_parse("a in (10,20,30)")
+  end
 end

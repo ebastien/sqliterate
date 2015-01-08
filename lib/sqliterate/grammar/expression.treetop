@@ -96,13 +96,13 @@ module SQLiterate
     end
 
     rule case_when_section
-      when_kw required_space w:scalar_expression space
-      then_kw required_space t:scalar_expression
+      when_kw space w:scalar_expression space
+      then_kw space t:scalar_expression
       <Node::CaseWhenSection>
     end
 
     rule case_else_section
-      ( else_kw required_space scalar_expression / space )
+      ( else_kw space scalar_expression / space )
       <Node::CaseElseSection>
     end
 
@@ -149,11 +149,11 @@ module SQLiterate
 
     rule ordering_specifier
       ( asc_kw / desc_kw )?
-      ( required_space nulls_kw required_space ( first_kw / last_kw ) )?
+      ( space nulls_kw required_space ( first_kw / last_kw ) )?
     end
 
     rule order_by_clause
-      ( order_by_kw required_space sort_expressions_list / space ) <Node::OrderByClause>
+      ( order_by_kw space sort_expressions_list / space ) <Node::OrderByClause>
     end
 
     rule sort_expressions_list
@@ -210,7 +210,7 @@ module SQLiterate
     end
 
     rule select_query
-      select_kw required_space
+      select_kw space
       distinct_clause space
       select_list space
       table_expression space
@@ -222,7 +222,7 @@ module SQLiterate
 
     rule distinct_clause
       aggregate_specifier (
-        required_space on_kw required_space '(' space expressions_list space ')'
+        required_space on_kw space '(' space expressions_list space ')'
       )?
       /
       space
@@ -256,20 +256,20 @@ module SQLiterate
     end
 
     rule from_clause
-      ( from_kw required_space table_references / space ) <Node::FromClause>
+      ( from_kw space table_references / space ) <Node::FromClause>
     end
 
     rule where_clause
-      ( where_kw required_space scalar_expression / space ) <Node::WhereClause>
+      ( where_kw space scalar_expression / space ) <Node::WhereClause>
     end
 
     rule group_by_clause
-      ( group_by_kw required_space expressions_list space having_clause / space )
+      ( group_by_kw space expressions_list space having_clause / space )
       <Node::GroupByClause>
     end
 
     rule having_clause
-      ( having_kw required_space scalar_expression / space ) <Node::HavingClause>
+      ( having_kw space scalar_expression / space ) <Node::HavingClause>
     end
 
     rule table_references
@@ -323,7 +323,7 @@ module SQLiterate
     end
 
     rule limit_clause
-      limit_kw required_space ( digits / all_kw )
+      limit_kw space ( digits / all_kw )
       /
       space
     end
