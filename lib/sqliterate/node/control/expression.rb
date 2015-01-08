@@ -34,7 +34,7 @@ module SQLiterate
 
     module SetPredicateExpression
       def tables
-        e.tables + query_expression.tables
+        e.tables + set_constructor.tables
       end
     end
 

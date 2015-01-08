@@ -89,4 +89,9 @@ describe "tables access control" do
     expect(parse("select * from t1 limit (select max(b) from t2) offset (select min(c) from t3)")).to \
       eq(["t1","t2","t3"])
   end
+
+  it "parses select with subquery in membership list" do
+    expect(parse("select 1 in ((select max(b) from t1),(select min(c) from t2))")).to \
+      eq(["t1","t2"])
+  end
 end
