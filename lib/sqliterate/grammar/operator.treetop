@@ -5,13 +5,11 @@ module SQLiterate
     include Keywords
 
     rule gen_operator
-      symbol_operator
+      symbol_operator !( space set_predicate_qualifier ) <Node::GenOperator>
     end
 
     rule symbol_operator
       sign_ending_operator
-      /
-      comparison_operator
       /
       nonsign_ending_operator
       /
@@ -27,19 +25,16 @@ module SQLiterate
     end
 
     rule nonsign_ending_operator
-      !comparison_operator
       r:( op_char !(nonsign_op_char !op_char) )* op_char nonsign_op_char !op_char
       <Node::NonsignEndingOperator>
     end
 
     rule ambiguous_operator
-      !comparison_operator
       r:( op_char !(sign_op_char !op_char) )* op_char
       <Node::AmbiguousOperator>
     end
 
     rule single_char_operator
-      !comparison_operator
       c:op_char <Node::SingleCharOperator>
     end
 
@@ -63,11 +58,6 @@ module SQLiterate
       c:[+\-*/<>=~!@#%^&|`?] comment* <Node::OperatorChar>
     end
 
-    rule comparison_operator
-      o:( '>=' / '<=' / '<>' / '!=' / '=' / '>' / '<' ) comment* !nonsign_op_char
-      <Node::ComparisonOperator>
-    end
-
     rule binary_test_operator
       is_kw space ( not_kw space )? distinct_kw space from_kw
     end
@@ -86,10 +76,14 @@ module SQLiterate
       is_kw space ( not_kw space )? unknown_kw
     end
 
+    rule set_predicate_qualifier
+      any_kw / some_kw / all_kw
+    end
+
     rule set_predicate_operator
       ( not_kw space )? in_kw
       /
-      comparison_operator space ( any_kw / some_kw / all_kw )
+      symbol_operator space set_predicate_qualifier
     end
   end
 end

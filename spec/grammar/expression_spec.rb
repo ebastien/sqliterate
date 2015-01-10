@@ -148,7 +148,6 @@ describe SQLiterate::ExpressionParser do
   end
 
   it "parses set predicate expressions" do
-    pending('not implemented')
     should_parse("a > ANY (select b from t)")
     should_parse("a = some (select b from t)")
     should_parse("a <> all (select b from t)")
