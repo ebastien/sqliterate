@@ -50,10 +50,8 @@ module SQLiterate
     end
 
     rule set_constructor
-      '(' space e:query_expression space ')'
-      /
-      '(' space e:expressions_list space ')'
-      <Node::SetConstructor>
+      ( '(' space e:query_expression space ')' /
+        '(' space e:expressions_list space ')' ) <Node::SetConstructor>
     end
 
     rule exists_expression

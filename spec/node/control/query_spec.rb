@@ -94,4 +94,14 @@ describe "tables access control" do
     expect(parse("select 1 in ((select max(b) from t1),(select min(c) from t2))")).to \
       eq(["t1","t2"])
   end
+
+  it "parses select with subquery in set predicate expression" do
+    expect(parse("select 1 not in (select b from t)")).to eq(["t"])
+    expect(parse("select 1 > some (select b from t)")).to eq(["t"])
+  end
+
+  it "parses select with subquery in set membership expression" do
+    expect(parse("select a from t1 where exists (select 1 from t2 where b > a)")).to \
+      eq(["t1","t2"])
+  end
 end
